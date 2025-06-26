@@ -27,7 +27,7 @@ jobs:
       run: python download_option_chain.py
 
     - name: Upload SQLite DB artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: option_chain_db
         path: data/option_chains.db
