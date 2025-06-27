@@ -24,7 +24,7 @@ jobs:
         pip install requests pandas
 
     - name: Run download script
-      run: python download_option_chain.py
+      run: python retriever.py
 
     - name: Upload SQLite DB artifact
       uses: actions/upload-artifact@v4
