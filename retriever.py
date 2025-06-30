@@ -9,8 +9,17 @@ DB_PATH = "data/option_chains.db"
 def get_option_chain(base_coin):
     url = "https://api.bybit.com/v5/market/tickers"
     params = {"category": "option", "baseCoin": base_coin}
-    response = requests.get(url, params=params, verify=False)
-    data = response.json()
+    response = requests.get(url, params=params)
+    if not response.ok or not response.text:
+    print(f"⚠️ Errore: risposta vuota o non valida per {base_coin}")
+    return pd.DataFrame()
+
+    try:
+        data = response.json()
+    except Exception as e:
+        print(f"⚠️ Errore nel parsing JSON per {base_coin}: {e}")
+        print(f"Contenuto risposta: {response.text}")
+        return pd.DataFrame()
 
     rows = []
     for opt in data.get("result", {}).get("list", []):
