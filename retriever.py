@@ -11,8 +11,8 @@ def get_option_chain(base_coin):
     params = {"category": "option", "baseCoin": base_coin}
     response = requests.get(url, params=params)
     if not response.ok or not response.text:
-    print(f"⚠️ Errore: risposta vuota o non valida per {base_coin}")
-    return pd.DataFrame()
+        print(f"⚠️ Errore: risposta vuota o non valida per {base_coin}")
+        return pd.DataFrame()
 
     try:
         data = response.json()
