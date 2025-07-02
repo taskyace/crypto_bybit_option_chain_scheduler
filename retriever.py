@@ -9,7 +9,7 @@ DB_PATH = "data/option_chains.db"
 def get_option_chain(base_coin):
     url = "https://api.bybit.com/v5/market/tickers"
     params = {"category": "option", "baseCoin": base_coin}
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, verify=False)
     if not response.ok or not response.text:
         print(f"⚠️ Errore: risposta vuota o non valida per {base_coin}")
         return pd.DataFrame()
