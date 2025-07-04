@@ -36,6 +36,6 @@ jobs:
       run: |
         git add data/option_chains.db
         git commit -m "Update DB - $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
-        git push
+        git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:main
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
