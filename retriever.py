@@ -9,8 +9,11 @@ DB_PATH = "data/option_chains.db"
 def get_option_chain(base_coin):
     url = "https://api.bybit.com/v5/market/tickers"
     params = {"category": "option", "baseCoin": base_coin}
-    headers = {"User-Agent": "Mozilla/5.0 (compatible; GitHubActions/1.0)"}
-    response = requests.get(url, params=params, headers=headers)
+    proxies = {
+    "http": "http://57.129.81.201:8080",
+    "https": "https://57.129.81.201:8080"
+    }
+    response = requests.get(url, params=params, proxies=proxies)
     if not response.ok or not response.text:
         print(f"⚠️ Errore: risposta vuota o non valida per {base_coin}")
         print(f"Status code: {response.status_code}")
