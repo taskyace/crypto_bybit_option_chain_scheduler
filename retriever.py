@@ -12,6 +12,9 @@ def get_option_chain(base_coin):
     response = requests.get(url, params=params)
     if not response.ok or not response.text:
         print(f"⚠️ Errore: risposta vuota o non valida per {base_coin}")
+        print(f"Status code: {response.status_code}")
+        print(f"Response content: {response.content}")
+        print(f"Headers: {response.headers}")
         return pd.DataFrame()
 
     try:
@@ -24,6 +27,9 @@ def get_option_chain(base_coin):
     rows = []
     for opt in data.get("result", {}).get("list", []):
         symbol = opt.get('symbol', '')
+        oi = float(opt.get('openInterest', 0))
+        gamma = float(opt.get('gamma', 0.0))
+        delta = float(opt.get('delta', 0.0))
         if base_coin not in symbol or symbol.count("-") != 4:
             continue
 
@@ -46,7 +52,10 @@ def get_option_chain(base_coin):
                 "bid": bid,
                 "ask": ask,
                 "mid": mid,
-                "IV": iv,
+                "iv": iv,
+                "oi": oi,
+                "delta": delta,
+                "gamma": gamma,
                 "download_date": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
             })
         except Exception as e:
