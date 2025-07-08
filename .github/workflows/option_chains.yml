@@ -25,8 +25,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests pandas
 
+    - name: Show DB status BEFORE script
+      run: |
+        ls -l data/option_chains.db || echo "DB does not exist yet"
+        python -c "import sqlite3; import os; db='data/option_chains.db'; print('DB exists:', os.path.exists(db)); print('Rows:', sqlite3.connect(db).execute('SELECT COUNT(*) FROM option_chain').fetchone()[0])" || echo "No rows yet or table missing"
+
     - name: Run download script
       run: python retriever.py
+
+    - name: Show DB status AFTER script
+      run: |
+        ls -l data/option_chains.db
+        python -c "import sqlite3; db='data/option_chains.db'; print('Rows:', sqlite3.connect(db).execute('SELECT COUNT(*) FROM option_chain').fetchone()[0])"
 
     - name: Configure Git for GitHub Actions
       run: |
